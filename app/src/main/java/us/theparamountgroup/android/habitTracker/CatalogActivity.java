@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets;
+package us.theparamountgroup.android.habitTracker;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -27,8 +27,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.android.pets.data.PetContract.PetEntry;
-import com.example.android.pets.data.PetDbHelper;
+import us.theparamountgroup.android.habitTracker.data.HabitDbHelper;
+import us.theparamountgroup.android.habitTracker.data.HabitTrackerContract.HabitEntry;
 
 /**
  * Displays list of pets that were entered and stored in the app.
@@ -37,7 +37,7 @@ public class CatalogActivity extends AppCompatActivity {
     /**
      * Database helper that will provide us access to the database
      */
-    private PetDbHelper mDbHelper;
+    private HabitDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class CatalogActivity extends AppCompatActivity {
 
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
-        mDbHelper = new PetDbHelper(this);
+        mDbHelper = new HabitDbHelper(this);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CatalogActivity extends AppCompatActivity {
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
+     * the habits database.
      */
     private void displayDatabaseInfo() {
 
@@ -75,26 +75,26 @@ public class CatalogActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM pets"
-        // to get a Cursor that contains all rows from the pets table.
+        // Perform this raw SQL query "SELECT * FROM habits"
+        // to get a Cursor that contains all rows from the habits table.
         String[] projection = {
-                PetEntry._ID,
-                PetEntry.COLUMN_PET_NAME,
-                PetEntry.COLUMN_PET_BREED,
-                PetEntry.COLUMN_PET_GENDER,
-                PetEntry.COLUMN_PET_WEIGHT
+                HabitEntry._ID,
+                HabitEntry.COLUMN_HABIT_NAME,
+                HabitEntry.COLUMN_TIME,
+                HabitEntry.COLUMN_HABIT_TYPE,
+                HabitEntry.COLUMN_PET_WEIGHT
 
         };
 
         Cursor cursor = db.query(
-                PetEntry.TABLE_NAME,
+                HabitEntry.TABLE_NAME,
                 projection,
                 null,
                 null,
                 null,
                 null,
                 null);
-        TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+        TextView displayView = (TextView) findViewById(R.id.text_view_habit);
 
         try {
             // Create a header in the Text View that looks like this:
@@ -104,18 +104,18 @@ public class CatalogActivity extends AppCompatActivity {
             //
             // In the while loop below, iterate through the rows of the cursor and display
             // the information from each column in this order.
-            displayView.setText("The pets table contains " + cursor.getCount() + " pets.\n\n");
-            displayView.append(PetEntry._ID + " - " +
-                    PetEntry.COLUMN_PET_NAME + " - " +
-                    PetEntry.COLUMN_PET_GENDER + " - " +
-                    PetEntry.COLUMN_PET_WEIGHT + "\n");
+            displayView.setText("The habits table contains " + cursor.getCount() + " habits.\n\n");
+            displayView.append(HabitEntry._ID + " - " +
+                    HabitEntry.COLUMN_HABIT_NAME + " - " +
+                    HabitEntry.COLUMN_HABIT_TYPE + " - " +
+                    HabitEntry.COLUMN_PET_WEIGHT + "\n");
 
             // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(PetEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_NAME);
-            int breedColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_BREED);
-            int genderColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_GENDER);
-            int weightColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_PET_WEIGHT);
+            int idColumnIndex = cursor.getColumnIndex(HabitEntry._ID);
+            int nameColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_NAME);
+            int breedColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_TIME);
+            int genderColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_TYPE);
+            int weightColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_PET_WEIGHT);
 
             // Iterate through all the returned rows in the cursor
             while (cursor.moveToNext()) {
@@ -150,19 +150,19 @@ public class CatalogActivity extends AppCompatActivity {
         // Create a ContentValues object where column names are the keys,
         // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_PET_NAME, "Toto");
-        values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
-        values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
-        values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
+        values.put(HabitEntry.COLUMN_HABIT_NAME, "School Work");
+        values.put(HabitEntry.COLUMN_TIME, "5");
+        values.put(HabitEntry.COLUMN_HABIT_TYPE, HabitEntry.TYPE_WORK);
+        values.put(HabitEntry.COLUMN_PET_WEIGHT, 7);
 
-        // Insert a new row for Toto in the database, returning the ID of that new row.
+        // Insert a new row for School Work in the database, returning the ID of that new row.
         // The first argument for db.insert() is the pets table name.
         // The second argument provides the name of a column in which the framework
         // can insert NULL in the event that the ContentValues is empty (if
         // this is set to "null", then the framework will not insert a row when
         // there are no values).
-        // The third argument is the ContentValues object containing the info for Toto.
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
+        // The third argument is the ContentValues object containing the info for School Work.
+        long newRowId = db.insert(HabitEntry.TABLE_NAME, null, values);
     }
 
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets.data;
+package us.theparamountgroup.android.habitTracker.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.pets.data.PetContract.PetEntry;
+import us.theparamountgroup.android.habitTracker.data.HabitTrackerContract.HabitEntry;
 
 /**
- * Database helper for Pets app. Manages database creation and version management.
+ * Database helper for Habit Tracker app. Manages database creation and version management.
  */
-public class PetDbHelper extends SQLiteOpenHelper {
+public class HabitDbHelper extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG = PetDbHelper.class.getSimpleName();
+    public static final String LOG_TAG = HabitDbHelper.class.getSimpleName();
 
     /** Name of the database file */
-    private static final String DATABASE_NAME = "shelter.db";
+    private static final String DATABASE_NAME = "habits.db";
 
     /**
      * Database version. If you change the database schema, you must increment the database version.
@@ -37,11 +37,11 @@ public class PetDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     /**
-     * Constructs a new instance of {@link PetDbHelper}.
+     * Constructs a new instance of {@link HabitDbHelper}.
      *
      * @param context of the app
      */
-    public PetDbHelper(Context context) {
+    public HabitDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -51,15 +51,15 @@ public class PetDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the pets table
-        String SQL_CREATE_PETS_TABLE =  "CREATE TABLE " + PetEntry.TABLE_NAME + " ("
-                + PetEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + PetEntry.COLUMN_PET_NAME + " TEXT NOT NULL, "
-                + PetEntry.COLUMN_PET_BREED + " TEXT, "
-                + PetEntry.COLUMN_PET_GENDER + " INTEGER NOT NULL, "
-                + PetEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);";
+        String SQL_CREATE_HABITS_TABLE =  "CREATE TABLE " + HabitEntry.TABLE_NAME + " ("
+                + HabitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + HabitEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, "
+                + HabitEntry.COLUMN_TIME + " INTEGER NOT NULL, "
+                + HabitEntry.COLUMN_HABIT_TYPE + " INTEGER NOT NULL, "
+          + HabitEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);";
 
         // Execute the SQL statement
-        db.execSQL(SQL_CREATE_PETS_TABLE);
+        db.execSQL(SQL_CREATE_HABITS_TABLE);
     }
 
     /**

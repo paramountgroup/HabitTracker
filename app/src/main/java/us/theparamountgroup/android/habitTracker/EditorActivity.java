@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets;
+package us.theparamountgroup.android.habitTracker;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,8 +30,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.pets.data.PetContract.PetEntry;
-import com.example.android.pets.data.PetDbHelper;
+import us.theparamountgroup.android.habitTracker.data.HabitDbHelper;
+import us.theparamountgroup.android.habitTracker.data.HabitTrackerContract.HabitEntry;
 
 /**
  * Allows user to create a new pet or edit an existing one.
@@ -59,11 +59,11 @@ public class EditorActivity extends AppCompatActivity {
     private Spinner mGenderSpinner;
 
     /**
-     * Gender of the pet. The possible valid values are in the PetContract.java file:
-     * {@link PetEntry#GENDER_UNKNOWN}, {@link PetEntry#GENDER_MALE}, or
-     * {@link PetEntry#GENDER_FEMALE}.
+     * Gender of the pet. The possible valid values are in the HabitTrackerContract.java file:
+     * {@link HabitEntry#TYPE_UNKNOWN}, {@link HabitEntry#TYPE_WORK}, or
+     * {@link HabitEntry#TYPE_PLEASURE}.
      */
-    private int mGender = PetEntry.GENDER_UNKNOWN;
+    private int mGender = HabitEntry.TYPE_UNKNOWN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +101,11 @@ public class EditorActivity extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.gender_male))) {
-                        mGender = PetEntry.GENDER_MALE;
+                        mGender = HabitEntry.TYPE_WORK;
                     } else if (selection.equals(getString(R.string.gender_female))) {
-                        mGender = PetEntry.GENDER_FEMALE;
+                        mGender = HabitEntry.TYPE_PLEASURE;
                     } else {
-                        mGender = PetEntry.GENDER_UNKNOWN;
+                        mGender = HabitEntry.TYPE_UNKNOWN;
                     }
                 }
             }
@@ -113,7 +113,7 @@ public class EditorActivity extends AppCompatActivity {
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mGender = PetEntry.GENDER_UNKNOWN;
+                mGender = HabitEntry.TYPE_UNKNOWN;
             }
         });
     }
@@ -130,7 +130,7 @@ public class EditorActivity extends AppCompatActivity {
         int weight = Integer.parseInt(weightString);
 
         // Create database helper
-        PetDbHelper mDbHelper = new PetDbHelper(this);
+        HabitDbHelper mDbHelper = new HabitDbHelper(this);
 
         // Gets the database in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -138,21 +138,21 @@ public class EditorActivity extends AppCompatActivity {
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_PET_NAME, nameString);
-        values.put(PetEntry.COLUMN_PET_BREED, breedString);
-        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
-        values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
+        values.put(HabitEntry.COLUMN_HABIT_NAME, nameString);
+        values.put(HabitEntry.COLUMN_TIME, breedString);
+        values.put(HabitEntry.COLUMN_HABIT_TYPE, mGender);
+        values.put(HabitEntry.COLUMN_PET_WEIGHT, weight);
 
         // Insert a new row for pet in the database, returning the ID of that new row.
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
+        long newRowId = db.insert(HabitEntry.TABLE_NAME, null, values);
 
         // Show a toast message depending on whether or not the insertion was successful
         if (newRowId == -1) {
             // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, "Error with saving pet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error with saving habit", Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "Pet saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Habit saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
         }
     }
 
