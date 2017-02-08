@@ -54,7 +54,7 @@ public final class HabitTrackerContract {
          *
          * Type: TEXT
          */
-        public final static String COLUMN_TIME = "time";
+        public final static String COLUMN_HABIT_TIME = "time";
 
         /**
          * Type of Habit.
@@ -66,20 +66,14 @@ public final class HabitTrackerContract {
          */
         public final static String COLUMN_HABIT_TYPE = "type";
 
-        /**
-         * Weight of the pet.
-         *
-         * Type: INTEGER
-         */
-       // public final static String COLUMN_PET_WEIGHT = "weight";
+
 
         /**
-         * Possible values for the gender of the pet.
+         * Possible values for the type of activity.
          */
         public static final int TYPE_UNKNOWN = 0;
         public static final int TYPE_WORK = 1;
         public static final int TYPE_PLEASURE = 2;
     }
-
 }
 

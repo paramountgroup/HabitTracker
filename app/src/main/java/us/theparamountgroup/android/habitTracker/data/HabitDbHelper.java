@@ -59,9 +59,8 @@ public class HabitDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_HABITS_TABLE =  "CREATE TABLE " + HabitEntry.TABLE_NAME + " ("
                 + HabitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + HabitEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, "
-                + HabitEntry.COLUMN_TIME + " INTEGER NOT NULL, "
+                + HabitEntry.COLUMN_HABIT_TIME + " INTEGER NOT NULL, "
                 + HabitEntry.COLUMN_HABIT_TYPE + " INTEGER NOT NULL); ";
-         // + HabitEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);";
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_HABITS_TABLE);
