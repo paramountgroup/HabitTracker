@@ -1,8 +1,8 @@
-Pets App
+Habit Tracker App
 ===================================
 
-This app displays a list of pets and their related data that the user inputs.
-Used in a Udacity course in the Android Basics Nanodegree by Google.
+This app displays a list of activities and their related data that the user inputs.
+Used in a Udacity course student project in the Android Basics Nanodegree by Google.
 
 Pre-requisites
 --------------
@@ -29,7 +29,7 @@ submitting a pull request through GitHub. Please see CONTRIBUTING.md for more de
 License
 -------
 
-Copyright 2016 The Android Open Source Project, Inc.
+Copyright 2017 The Android Open Source Project, Inc.
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for
