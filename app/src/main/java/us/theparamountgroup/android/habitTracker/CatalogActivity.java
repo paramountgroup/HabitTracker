@@ -16,15 +16,12 @@
 package us.theparamountgroup.android.habitTracker;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 
 import us.theparamountgroup.android.habitTracker.data.HabitDbHelper;
@@ -37,6 +34,8 @@ public class CatalogActivity extends AppCompatActivity {
     /**
      * Database helper that will provide us access to the database
      */
+
+    public static final String LOG_TAG = CatalogActivity.class.getSimpleName();
     private HabitDbHelper mDbHelper;
 
     @Override
@@ -46,13 +45,13 @@ public class CatalogActivity extends AppCompatActivity {
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
@@ -63,6 +62,9 @@ public class CatalogActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         displayDatabaseInfo();
+        Log.i(LOG_TAG, "Next go to insertHabit: ");
+        insertHabit();
+
     }
 
     /**
@@ -81,8 +83,8 @@ public class CatalogActivity extends AppCompatActivity {
                 HabitEntry._ID,
                 HabitEntry.COLUMN_HABIT_NAME,
                 HabitEntry.COLUMN_TIME,
-                HabitEntry.COLUMN_HABIT_TYPE,
-                HabitEntry.COLUMN_PET_WEIGHT
+                HabitEntry.COLUMN_HABIT_TYPE
+               // HabitEntry.COLUMN_PET_WEIGHT
 
         };
 
@@ -107,15 +109,15 @@ public class CatalogActivity extends AppCompatActivity {
             displayView.setText("The habits table contains " + cursor.getCount() + " habits.\n\n");
             displayView.append(HabitEntry._ID + " - " +
                     HabitEntry.COLUMN_HABIT_NAME + " - " +
-                    HabitEntry.COLUMN_HABIT_TYPE + " - " +
-                    HabitEntry.COLUMN_PET_WEIGHT + "\n");
+                    HabitEntry.COLUMN_HABIT_TYPE +"\n");
+                   // HabitEntry.COLUMN_PET_WEIGHT + "\n");
 
             // Figure out the index of each column
             int idColumnIndex = cursor.getColumnIndex(HabitEntry._ID);
             int nameColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_NAME);
             int breedColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_TIME);
             int genderColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_TYPE);
-            int weightColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_PET_WEIGHT);
+           // int weightColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_PET_WEIGHT);
 
             // Iterate through all the returned rows in the cursor
             while (cursor.moveToNext()) {
@@ -125,13 +127,13 @@ public class CatalogActivity extends AppCompatActivity {
                 String currentName = cursor.getString(nameColumnIndex);
                 String currentBreed = cursor.getString(breedColumnIndex);
                 int currentGender = cursor.getInt(genderColumnIndex);
-                int currentWeight = cursor.getInt(weightColumnIndex);
+                //int currentWeight = cursor.getInt(weightColumnIndex);
                 // Display the values from each column of the current row in the cursor in the TextView
                 displayView.append(("\n" + currentID + " - " +
                         currentName + " - " +
                         currentBreed + " - " +
-                        currentGender + " - " +
-                        currentWeight));
+                        currentGender));
+                   //     currentWeight));
             }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
@@ -143,17 +145,17 @@ public class CatalogActivity extends AppCompatActivity {
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
-    private void insertPet() {
+    private void insertHabit() {
         // Gets the database in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
+        // and SchoolWork attributes are the values.
         ContentValues values = new ContentValues();
         values.put(HabitEntry.COLUMN_HABIT_NAME, "School Work");
         values.put(HabitEntry.COLUMN_TIME, "5");
         values.put(HabitEntry.COLUMN_HABIT_TYPE, HabitEntry.TYPE_WORK);
-        values.put(HabitEntry.COLUMN_PET_WEIGHT, 7);
+
 
         // Insert a new row for School Work in the database, returning the ID of that new row.
         // The first argument for db.insert() is the pets table name.
@@ -165,7 +167,7 @@ public class CatalogActivity extends AppCompatActivity {
         long newRowId = db.insert(HabitEntry.TABLE_NAME, null, values);
     }
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -174,13 +176,15 @@ public class CatalogActivity extends AppCompatActivity {
         return true;
     }
 
+    */
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                insertPet();
+                insertHabit();
                 displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
@@ -190,4 +194,5 @@ public class CatalogActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 }

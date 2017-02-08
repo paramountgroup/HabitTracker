@@ -18,6 +18,7 @@ package us.theparamountgroup.android.habitTracker.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import us.theparamountgroup.android.habitTracker.data.HabitTrackerContract.HabitEntry;
 
@@ -26,7 +27,9 @@ import us.theparamountgroup.android.habitTracker.data.HabitTrackerContract.Habit
  */
 public class HabitDbHelper extends SQLiteOpenHelper {
 
+
     public static final String LOG_TAG = HabitDbHelper.class.getSimpleName();
+
 
     /** Name of the database file */
     private static final String DATABASE_NAME = "habits.db";
@@ -43,6 +46,7 @@ public class HabitDbHelper extends SQLiteOpenHelper {
      */
     public HabitDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        Log.i(LOG_TAG, "in HabitDbHelper: ");
     }
 
     /**
@@ -50,16 +54,18 @@ public class HabitDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.i(LOG_TAG, "in onCreate SQLiteDatabase first line: ");
         // Create a String that contains the SQL statement to create the pets table
         String SQL_CREATE_HABITS_TABLE =  "CREATE TABLE " + HabitEntry.TABLE_NAME + " ("
                 + HabitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + HabitEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, "
                 + HabitEntry.COLUMN_TIME + " INTEGER NOT NULL, "
-                + HabitEntry.COLUMN_HABIT_TYPE + " INTEGER NOT NULL, "
-          + HabitEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);";
+                + HabitEntry.COLUMN_HABIT_TYPE + " INTEGER NOT NULL); ";
+         // + HabitEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);";
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_HABITS_TABLE);
+        Log.i(LOG_TAG, "in onCreate SQLiteDatabase last line: ");
     }
 
     /**

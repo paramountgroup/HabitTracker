@@ -39,7 +39,7 @@ import us.theparamountgroup.android.habitTracker.data.HabitTrackerContract.Habit
 public class EditorActivity extends AppCompatActivity {
 
     /**
-     * EditText field to enter the pet's name
+     * EditText field to enter the habit name
      */
     private EditText mNameEditText;
 
@@ -141,7 +141,7 @@ public class EditorActivity extends AppCompatActivity {
         values.put(HabitEntry.COLUMN_HABIT_NAME, nameString);
         values.put(HabitEntry.COLUMN_TIME, breedString);
         values.put(HabitEntry.COLUMN_HABIT_TYPE, mGender);
-        values.put(HabitEntry.COLUMN_PET_WEIGHT, weight);
+       // values.put(HabitEntry.COLUMN_PET_WEIGHT, weight);
 
         // Insert a new row for pet in the database, returning the ID of that new row.
         long newRowId = db.insert(HabitEntry.TABLE_NAME, null, values);

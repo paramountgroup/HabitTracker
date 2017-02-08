@@ -57,7 +57,7 @@ public final class HabitTrackerContract {
         public final static String COLUMN_TIME = "time";
 
         /**
-         * Gender of the pet.
+         * Type of Habit.
          *
          * The only possible values are {@link #TYPE_UNKNOWN}, {@link #TYPE_WORK},
          * or {@link #TYPE_PLEASURE}.
@@ -71,7 +71,7 @@ public final class HabitTrackerContract {
          *
          * Type: INTEGER
          */
-        public final static String COLUMN_PET_WEIGHT = "weight";
+       // public final static String COLUMN_PET_WEIGHT = "weight";
 
         /**
          * Possible values for the gender of the pet.
