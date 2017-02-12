@@ -61,26 +61,7 @@ public class CatalogActivity extends AppCompatActivity {
      * the habits database.
      */
     private void displayDatabaseInfo() {
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        // Perform this raw SQL query "SELECT * FROM habits"
-        // to get a Cursor that contains all rows from the habits table.
-        String[] projection = {
-                HabitEntry._ID,
-                HabitEntry.COLUMN_HABIT_NAME,
-                HabitEntry.COLUMN_HABIT_TIME,
-                HabitEntry.COLUMN_HABIT_TYPE
-        };
-
-        Cursor cursor = db.query(
-                HabitEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
+        Cursor cursor = readAllHabits();
         TextView displayView = (TextView) findViewById(R.id.text_view_habit);
 
         try {
@@ -110,15 +91,15 @@ public class CatalogActivity extends AppCompatActivity {
                 // at the current row the cursor is on.
                 int currentID = cursor.getInt(idColumnIndex);
                 String currentName = cursor.getString(nameColumnIndex);
-                String currentBreed = cursor.getString(timeColumnIndex);
-                int currentGender = cursor.getInt(typeColumnIndex);
+                String currentTime = cursor.getString(timeColumnIndex);
+                int currentType    = cursor.getInt(typeColumnIndex);
                 //int currentWeight = cursor.getInt(weightColumnIndex);
                 // Display the values from each column of the current row in the cursor in the TextView
                 displayView.append(("\n" + currentID + " - " +
                         currentName + " - " +
-                        currentBreed + " - " +
-                        currentGender));
-                //     currentWeight));
+                        currentTime + " - " +
+                        currentType));
+
             }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
@@ -150,5 +131,31 @@ public class CatalogActivity extends AppCompatActivity {
         // there are no values).
         // The third argument is the ContentValues object containing the info for School Work.
         long newRowId = db.insert(HabitEntry.TABLE_NAME, null, values);
+    }
+
+
+    public Cursor readAllHabits() {
+
+        // Create and/or open a database to read from it
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        // Perform this raw SQL query "SELECT * FROM habits"
+        // to get a Cursor that contains all rows from the habits table.
+        String[] projection = {
+                HabitEntry._ID,
+                HabitEntry.COLUMN_HABIT_NAME,
+                HabitEntry.COLUMN_HABIT_TIME,
+                HabitEntry.COLUMN_HABIT_TYPE
+        };
+
+        return db.query(
+                HabitEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
+        // The database is still at version 1, so there's nothing to do be done here.
     }
 }
